@@ -1,0 +1,35 @@
+name: Petstore API tests
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: Jest
+            directory: jest-tests
+          - runner: Vitest
+            directory: vitest-tests
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ${{ matrix.directory }}
+
+      - name: Run tests
+        run: npm test
+        working-directory: ${{ matrix.directory }}
