@@ -1,0 +1,5 @@
+node_modules/
+coverage/
+.vitest/
+test-results/
+screenshots/*.tmp
